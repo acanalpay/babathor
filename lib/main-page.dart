@@ -111,6 +111,7 @@ class _MainPageState extends State<MainPage> {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         prefs.remove('userId');
+                        storage.deleteMethod('chatIds');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -133,12 +134,13 @@ class _MainPageState extends State<MainPage> {
 
     Map<String, dynamic> obj = json.decode(a);
     List<String> chatIdsList = new List<String>();
+    List<Widget> widgetList = new List<Widget>();
+    if(obj == null) return widgetList;
     for (var i = 0; i < obj.length; i++) {
       for (var key in obj.values.elementAt(i).keys){
       chatIdsList.add(key);}
     }
 
-    List<Widget> widgetList = new List<Widget>();
     for (var i = 0; i < chatIdsList.length; i++) {
       widgetList.add(ListTile(
         title: Text(chatIdsList[i]),

@@ -39,7 +39,7 @@ class Db{
     int lastId;
     if(a != ""){
     Map<String, dynamic> obj = json.decode(a);
-    int lastId = int.parse(obj.values.last['id']);
+    lastId = int.parse(obj.values.last['id']);
     message.id = (lastId).toString();
     }else{
       lastId = 1;

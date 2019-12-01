@@ -1,3 +1,4 @@
+import 'package:babathor/constants.dart';
 import 'package:flutter/material.dart';
 
 class MessageBox extends StatelessWidget {
@@ -10,11 +11,10 @@ class MessageBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 1)
-      ),
+      decoration:kMessageContainerDecoration,
       child: getTextWidget(),
     );
+    
   }
 
   Widget getTextWidget(){
