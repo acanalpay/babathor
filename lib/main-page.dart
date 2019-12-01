@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:babathor/chat-page.dart';
 import 'package:babathor/db/LStorage.dart';
 import 'package:babathor/db/message.dart';
@@ -93,12 +95,13 @@ class _MainPageState extends State<MainPage> {
                         child: FutureBuilder<Object>(
                             future: getChatsIds(),
                             builder: (context, snapshot) {
-                              return ListView();
+                              return ListView(
+                                children: snapshot.data,
+                              );
                             })),
                     RaisedButton(
                       child: Text('Start new chat'),
                       onPressed: () {
-                        storage.deleteMethod('chatIds');
                         _showDialog();
                       },
                     ),
@@ -125,9 +128,29 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Future<List<String>> getChatsIds() async{
+  Future<List<Widget>> getChatsIds() async {
     String a = await storage.readChatIds();
-    print(a);
+
+    Map<String, dynamic> obj = json.decode(a);
+    List<String> chatIdsList = new List<String>();
+    for (var i = 0; i < obj.length; i++) {
+      for (var key in obj.values.elementAt(i).keys){
+      chatIdsList.add(key);}
+    }
+
+    List<Widget> widgetList = new List<Widget>();
+    for (var i = 0; i < chatIdsList.length; i++) {
+      widgetList.add(ListTile(
+        title: Text(chatIdsList[i]),
+        onTap: (){
+          Navigator.push(context, new MaterialPageRoute(
+            builder: (context)=> ChatPage(chatId: chatIdsList[i],userId: widget.userId,)
+          ));
+        },
+      ));
+    }
+
+    return widgetList;
   }
 }
 

@@ -1,8 +1,8 @@
 class Message {
-  final String id;
-  final String content;
-  final String date;
-  final String from;
+  String id;
+  String content;
+  String date;
+  String from;
 
   Message(this.id,this.content, this.date, this.from);
 

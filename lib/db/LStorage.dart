@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:babathor/db/message.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LStorage {
-    static int count=0;
-    static int count2=0;
+  static int count = 0;
+  static int count2 = 0;
+  Random rand = new Random();
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -54,34 +56,57 @@ class LStorage {
     }
   }
 
-  deleteMethod(String chatId) async {
-    final file = await localFile(chatId);
+  deleteMethod(String fName) async {
+    final file = await localFile(fName);
     await file.delete();
   }
-  String jSonParser2(String file, String cId) {
-    if(file !=""){
-      String messageID = "chat" + cId;
-      return file.substring(0,file.length-1) + ",\n" + '\"' + messageID + '\": ' + "}";
-    }else{
-      String messageID = "chat" + cId;
-      return '{\"' + messageID + '\": ' + "}";
+
+  String jSonParser2(String chats, String cId) {
+    int chatID = int.parse(cId);
+    String newChat = "{";
+    for (int i = 0; i < chats.length; i++) {
+      if (newChat == "{") newChat += "\"chat" + (chatID++).toString() + "\":\n\t";
+      newChat += chats[i];
+      if (chats[i] == "}") {
+        if (i != chats.length - 1) {
+          newChat += ",\n";
+          newChat += "\"chat" + (chatID++).toString() + "\":\n\t";
+        }
+      }
     }
+    return newChat + "}";
   }
 
   String jSonParser(String file, String secondData, String messageId) {
-    if(file !=""){
-    String messageID = "message" + messageId;
-    return file.substring(0,file.length-1) + ",\n" + '\"' + messageID + '\": ' + secondData + "}";
-    }else{
-    String messageID = "message" + messageId;
-    return '{\"' + messageID + '\": ' + secondData + "}";
+    if (file != "") {
+      String messageID = "message" + messageId;
+      return file.substring(0, file.length - 1) +
+          ",\n" +
+          '\"' +
+          messageID +
+          '\": ' +
+          secondData +
+          "}";
+    } else {
+      String messageID = "message" + messageId;
+      return '{\"' + messageID + '\": ' + secondData + "}";
     }
   }
+
   Future<File> writeMessage(Message message, String chatId) async {
     final file = await localFile(chatId);
     String a = await file.readAsString();
-      a = jSonParser(a, json.encode(message.toJson()), (count++).toString());
-      print(a);
+    int lastId;
+    if (a != "") {
+      Map<String, dynamic> obj = json.decode(a);
+      lastId = int.parse(obj.values.last['id']);
+      message.id = (++lastId).toString();
+    } else {
+      lastId = 1;
+      message.id = '1';
+    }
+    a = jSonParser(a, json.encode(message.toJson()), (lastId).toString());
+    print(a);
     return file.writeAsString(a);
   }
 
@@ -94,7 +119,7 @@ class LStorage {
       for (var i = 0; i < obj.length; i++) {
         messages.add(Message.fromJson(obj.values.elementAt(i)));
       }
-      
+
       return messages;
     } catch (e) {
       return null;
