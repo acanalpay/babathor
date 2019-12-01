@@ -1,14 +1,28 @@
 import 'package:babathor/chat-page.dart';
+import 'package:babathor/db/LStorage.dart';
+import 'package:babathor/db/message.dart';
 import 'package:babathor/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatefulWidget {
+  final String userId;
+
+  const MainPage({Key key, this.userId}) : super(key: key);
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
+  LStorage storage = new LStorage();
+  String fromId;
+  String generateChatID(String A, String B) {
+    if (A.compareTo(B) < 0)
+      return A + B;
+    else
+      return B + A;
+  }
+
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -16,9 +30,37 @@ class _MainPageState extends State<MainPage> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Alert Dialog title"),
-          content: new Text("Alert Dialog body"),
+          title: new Text("Please enter the id"),
+          content: new TextFormField(
+            onChanged: (value) {
+              fromId = value;
+            },
+          ),
           actions: <Widget>[
+            new FlatButton(
+              child: new Text("Start"),
+              onPressed: () async {
+                String chatIds = generateChatID(widget.userId, fromId);
+                bool isExist = await storage.fileIsExist(chatIds);
+                if (!isExist) {
+                  await storage.writeChatId(chatIds);
+                }
+                // await storage.deleteMethod('asd');
+                // await storage.writeMessage(
+                //     new Message('1', "AA", DateTime.now().toString(), 'from',
+                //         widget.userId),
+                //     chatIds);
+                // await storage.writeMessage(new Message('2', "BB", DateTime.now().toString(), widget.userId, 'to'), "asd");
+                // await storage.writeMessage(new Message('3', "CC", DateTime.now().toString(), widget.userId, 'to'), "asd");
+                String a1 = await storage.readChatIds();
+                String a2 = await storage.readMessages("asd");
+                print(a1);
+                print(a2);
+                Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (context) =>
+                        ChatPage(chatId: chatIds, userId: widget.userId)));
+              },
+            ),
             // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Close"),
@@ -48,31 +90,16 @@ class _MainPageState extends State<MainPage> {
                           children: <Widget>[
                     SelectableText(snapshot.data),
                     Expanded(
-                        child: ListView.separated(
-                      separatorBuilder: (context, index) => Divider(
-                        color: Colors.black,
-                      ),
-                      itemCount: 20,
-                      itemBuilder: (context, index) => Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                            child: ListTile(
-                          title: Text('Murat'),
-                          onTap: () {
-                            Navigator.of(context).push(new MaterialPageRoute(
-                                builder: (context) => ChatPage(
-                                      toId: 'Murat',
-                                    )));
-                          },
-                        )),
-                      ),
-                    )),
+                        child: FutureBuilder<Object>(
+                            future: getChatsIds(),
+                            builder: (context, snapshot) {
+                              return ListView();
+                            })),
                     RaisedButton(
                       child: Text('Start new chat'),
                       onPressed: () {
-                        Navigator.pop(
-                          context,
-                        );
+                        storage.deleteMethod('chatIds');
+                        _showDialog();
                       },
                     ),
                     RaisedButton(
@@ -96,6 +123,11 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
     );
+  }
+
+  Future<List<String>> getChatsIds() async{
+    String a = await storage.readChatIds();
+    print(a);
   }
 }
 

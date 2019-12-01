@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Random rand = new Random();
         id += rand.nextInt(9).toString();
       }
+      userId = id;
       return id;
     }
     return null;
@@ -51,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) return CircularProgressIndicator();
           if (snapshot.data == true) {
-            return MainPage(); 
+            return MainPage(userId: userId); 
           } else {
             return Scaffold(
               appBar: AppBar(
@@ -78,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         writeId(createUserID(userName));
                         Navigator.of(context).pushReplacement(
                             new MaterialPageRoute(
-                                builder: (context) => MainPage()));
+                                builder: (context) => MainPage(userId: userId)));
                       },
                     ),
                   ],
@@ -91,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<bool> checkId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(prefs.getString("userId"));
+    userId = prefs.getString("userId");
     return prefs.containsKey("userId");
   }
 

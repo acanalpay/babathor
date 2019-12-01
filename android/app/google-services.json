@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "791362129309",
+    "firebase_url": "https://babathor-6493a.firebaseio.com",
+    "project_id": "babathor-6493a",
+    "storage_bucket": "babathor-6493a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791362129309:android:499c57132fc2120edf7374",
+        "android_client_info": {
+          "package_name": "com.example.babathor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791362129309-ptck9nkssfde6qqante8ihg9t6052ul3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzXujGZrwvnBThoEI7EvGzBiacQxSUeUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791362129309-ptck9nkssfde6qqante8ihg9t6052ul3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
