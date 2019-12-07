@@ -4,16 +4,17 @@ A new Flutter project.
 ## Getting Started
 
 This project is a starting point for a Flutter application.
-
+			
 			HACKATHOR
 			
-Cyber Security Hackathon by Turkish Cyber Security Cluster
+	Cyber Security Hackathon by Turkish Cyber Security Cluster
+	Group Name: BabaThor
 
-Group Name: BabaThor
+	Secure Chat
 
-Secure Chat
 
 Out biggest difference from other chat systems is that we store messages in the users phone.
+
 
 Thus, no one else get access to others messages. In order to do that, we planned to use peer-to-peer connection between phones. 
 
