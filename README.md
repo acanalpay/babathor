@@ -10,7 +10,7 @@ This project is a starting point for a Flutter application.
 	Cyber Security Hackathon by Turkish Cyber Security Cluster
 	Group Name: BabaThor
 
-	Secure Chat
+	SecureChat
 
 
 Out biggest difference from other chat systems is that we store messages in the users phone.
