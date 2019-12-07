@@ -22,4 +22,4 @@ Each person enters  ID -which created randomly after user enters its name- to ea
 After that, their messages will send through this port and will written in to the local file of the phones. 
 Thus, without using cloud or firebase users will be able to send messages to each other. 
 
-Currently our application creates and stores the local files of the messages, but messages are send through database, after receiver open the application messages are deleting from the database
+Currently our application creates and stores the local files of the messages, but messages are send through database, after receiver open the application messages are deleting from the database.
