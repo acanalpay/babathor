@@ -13,7 +13,7 @@ This project is a starting point for a Flutter application.
 	SecureChat
 
 
-Out biggest difference from other chat systems is that we store messages in the users phone.
+Our biggest difference from other chat systems is that we store messages in the users phone.
 
 
 Thus, no one else get access to others messages. In order to do that, we planned to use peer-to-peer connection between phones. 
