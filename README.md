@@ -1,4 +1,4 @@
-# babathor
+# Babathor
 A secure chat system implemented with Flutter/Dart for a Cyber Security Contest called Hackathor.
 
 ## Getting Started
